@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import ru.prplhd.currencyexchange.dao.CurrencyDao;
 import ru.prplhd.currencyexchange.dao.ExchangeRateDao;
 import ru.prplhd.currencyexchange.dao.JdbcCurrencyDao;
@@ -27,6 +28,7 @@ import ru.prplhd.currencyexchange.webutil.response.ResponseWriter;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @WebServlet("/exchangeRate/*")
 public class ExchangeRateServlet extends HttpServlet {
     private static final int CURRENCY_CODE_LENGTH = 3;
@@ -69,6 +71,9 @@ public class ExchangeRateServlet extends HttpServlet {
         CurrencyPair currencyPair = extractCurrencyPair(request);
         String rate = extractRate(request);
         ExchangeRateRequestDto exchangeRateRequestDto = new ExchangeRateRequestDto(currencyPair.baseCurrencyCode(), currencyPair.targetCurrencyCode(), rate);
+
+        log.info("Editing exchange rate: base code={}, target code={}",
+                exchangeRateRequestDto.baseCurrencyCode(), exchangeRateRequestDto.targetCurrencyCode());
 
         ExchangeRate exchangeRate = exchangeRateService.updateExchangeRate(exchangeRateRequestDto);
 
