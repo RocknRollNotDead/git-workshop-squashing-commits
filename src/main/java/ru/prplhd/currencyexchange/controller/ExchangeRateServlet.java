@@ -57,7 +57,7 @@ public class ExchangeRateServlet extends HttpServlet {
                 .orElseThrow(() -> new ExchangeRateNotFoundException("Exchange rate with codes '%s' and '%s' not found"
                         .formatted(baseCurrencyCode, targetCurrencyCode)));
 
-        ExchangeRateResponseDto exchangeRateResponseDto = ExchangeRateMapper.toDto(exchangeRate);
+        ExchangeRateResponseDto exchangeRateResponseDto = ExchangeRateMapper.INSTANCE.toDto(exchangeRate);
 
         responseWriter.write(
                 exchangeRateResponseDto,
@@ -77,7 +77,7 @@ public class ExchangeRateServlet extends HttpServlet {
 
         ExchangeRate exchangeRate = exchangeRateService.updateExchangeRate(exchangeRateRequestDto);
 
-        ExchangeRateResponseDto exchangeRateResponseDto = ExchangeRateMapper.toDto(exchangeRate);
+        ExchangeRateResponseDto exchangeRateResponseDto = ExchangeRateMapper.INSTANCE.toDto(exchangeRate);
 
         responseWriter.write(
                 exchangeRateResponseDto,
